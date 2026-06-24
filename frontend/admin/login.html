@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Brall Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+<div class="login-page">
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-emblem large" style="margin:0 auto 16px">ب</div>
+    </div>
+    <h1 class="login-title">Admin Access</h1>
+    <p class="login-sub">Brall Community — Content Management</p>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-input" id="passwordInput" placeholder="Enter admin password" autocomplete="current-password">
+    </div>
+
+    <div id="loginError" style="color:var(--red);font-size:0.85rem;margin-bottom:16px;display:none">
+      Wrong password. Try again.
+    </div>
+
+    <button class="btn-primary btn-full" id="loginBtn" onclick="doLogin()">
+      Sign In
+    </button>
+
+    <p style="text-align:center;margin-top:20px">
+      <a href="../index.html" style="color:var(--cream-dim);font-size:0.8rem">← Back to Website</a>
+    </p>
+  </div>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+// Redirect if already logged in
+(async () => {
+  if (await verifyAdmin()) location.href = 'dashboard.html';
+})();
+
+const input = document.getElementById('passwordInput');
+input.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const btn = document.getElementById('loginBtn');
+  const err = document.getElementById('loginError');
+  const pw  = input.value.trim();
+  if (!pw) return;
+
+  btn.textContent = 'Signing in…';
+  btn.disabled = true;
+  err.style.display = 'none';
+
+  try {
+    const res = await api.post('/api/admin/login', { password: pw });
+    setAdminToken(res.token);
+    location.href = 'dashboard.html';
+  } catch {
+    err.style.display = 'block';
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
+    input.value = '';
+    input.focus();
+  }
+}
+</script>
+</body>
+</html>

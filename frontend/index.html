@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brall Community — Our Heritage, Our Pride</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-emblem">ب</span>
+      <span class="logo-text">Brall Community</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="admin/login.html" class="nav-admin-btn">Admin</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero" id="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal-up">Est. Since Centuries</p>
+    <h1 class="hero-title reveal-up delay-1">
+      <span class="line">The Legacy of</span>
+      <span class="line gold">Brall</span>
+    </h1>
+    <p class="hero-sub reveal-up delay-2">
+      A proud lineage — our stories, our struggles, our strength. Preserving the heritage of the Brall community for generations to come.
+    </p>
+    <div class="hero-cta reveal-up delay-3">
+      <a href="history.html" class="btn-primary">Explore Our History</a>
+      <a href="gallery.html" class="btn-ghost">View Gallery</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<section class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-num" data-target="0" id="stat-history">0</span>
+      <span class="stat-label">History Posts</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="0" id="stat-gallery">0</span>
+      <span class="stat-label">Gallery Items</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="1">∞</span>
+      <span class="stat-label">Generations</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── INTRO ── -->
+<section class="intro section-pad">
+  <div class="container">
+    <div class="intro-grid">
+      <div class="intro-text">
+        <p class="section-eyebrow">Who We Are</p>
+        <h2 class="section-title">A Community Rooted in History</h2>
+        <p class="body-text">
+          The Brall community carries a legacy stretching back through generations — through valleys, cities, and centuries of lived experience. This platform is our living archive: a place where elders share, youth discover, and our collective memory endures.
+        </p>
+        <p class="body-text">
+          Here you will find our documented history, photographs, and videos — all curated and maintained by our community administrators.
+        </p>
+        <a href="history.html" class="btn-primary mt-6">Read Our Story →</a>
+      </div>
+      <div class="intro-visual">
+        <div class="ornament-card">
+          <div class="ornament-pattern"></div>
+          <div class="ornament-text">
+            <span class="orn-urdu">ہمارا ورثہ</span>
+            <span class="orn-en">Our Heritage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LATEST HISTORY ── -->
+<section class="latest section-pad bg-dark">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">From the Archives</p>
+      <h2 class="section-title">Latest History Posts</h2>
+    </div>
+    <div class="cards-grid" id="latestHistoryGrid">
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+    </div>
+    <div class="section-footer">
+      <a href="history.html" class="btn-ghost">View All Posts →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY PREVIEW ── -->
+<section class="gallery-preview section-pad">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Memories</p>
+      <h2 class="section-title">Gallery Highlights</h2>
+    </div>
+    <div class="gallery-mosaic" id="galleryPreview">
+      <div class="card-skeleton tall"></div>
+      <div class="card-skeleton"></div>
+      <div class="card-skeleton"></div>
+    </div>
+    <div class="section-footer">
+      <a href="gallery.html" class="btn-primary">Full Gallery →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-emblem large">ب</span>
+        <span class="logo-text">Brall Community</span>
+      </div>
+      <nav class="footer-nav">
+        <a href="history.html">History</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin/login.html">Admin</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Brall Community. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

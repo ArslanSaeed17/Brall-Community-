@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our History — Brall Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<div id="pageLoader" class="page-loader">
+  <div class="loader-emblem">ب</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-emblem">ب</span>
+      <span class="logo-text">Brall Community</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="history.html" class="active">History</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="admin/login.html" class="nav-admin-btn">Admin</a>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="section-eyebrow">Our Story</p>
+    <h1 class="page-hero-title">The <span>History</span> of Brall</h1>
+    <p class="page-hero-sub">Centuries of heritage, documented and preserved for generations to come.</p>
+  </div>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="history-layout">
+      <aside class="history-sidebar">
+        <p class="sidebar-title">Filter by Era</p>
+        <div class="era-filter" id="eraFilter">
+          <button class="era-btn active" data-era="all">All Eras</button>
+        </div>
+      </aside>
+      <div class="history-posts" id="historyContainer">
+        <div class="card-skeleton" style="height:200px"></div>
+        <div class="card-skeleton" style="height:200px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-emblem large">ب</span>
+        <span class="logo-text">Brall Community</span>
+      </div>
+      <nav class="footer-nav">
+        <a href="history.html">History</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Brall Community. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

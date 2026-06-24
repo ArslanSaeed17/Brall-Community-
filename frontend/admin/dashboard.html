@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Brall Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="nav-logo" style="display:flex;align-items:center;gap:10px">
+        <span class="logo-emblem">ب</span>
+        <span class="logo-text" style="font-size:0.95rem">Brall Admin</span>
+      </div>
+    </div>
+    <nav>
+      <div class="admin-nav-item active" data-panel="history">
+        <span class="admin-nav-icon">🏛️</span> History Posts
+      </div>
+      <div class="admin-nav-item" data-panel="gallery">
+        <span class="admin-nav-icon">🖼️</span> Gallery
+      </div>
+      <div class="admin-nav-item" data-panel="settings">
+        <span class="admin-nav-icon">⚙️</span> Settings
+      </div>
+    </nav>
+    <div style="position:absolute;bottom:24px;left:0;right:0;padding:0 24px">
+      <button onclick="logout()" class="btn-ghost" style="width:100%;justify-content:center;font-size:0.8rem">
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="admin-content">
+    <div class="admin-top-bar">
+      <h1 class="admin-title" id="panelTitle">History Posts</h1>
+      <a href="../index.html" style="font-size:0.8rem;color:var(--cream-dim)">← View Website</a>
+    </div>
+
+    <!-- ── HISTORY PANEL ── -->
+    <div class="admin-panel active" id="panel-history">
+      <div class="upload-form">
+        <h3>Add New History Post</h3>
+        <div class="form-group">
+          <label class="form-label">Title *</label>
+          <input type="text" class="form-input" id="h-title" placeholder="e.g. Origins of the Brall Clan">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Era / Time Period</label>
+          <input type="text" class="form-input" id="h-era" placeholder="e.g. Pre-1947, Modern Era, British Period">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Content *</label>
+          <textarea class="form-textarea" id="h-content" placeholder="Write the full history here…" style="min-height:200px"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cover Image (optional)</label>
+          <div class="file-drop" id="h-drop">
+            <div class="file-drop-icon">📸</div>
+            <p class="file-drop-text">Click or drag an image here</p>
+            <input type="file" id="h-image" accept="image/*">
+          </div>
+          <div class="file-preview" id="h-preview"></div>
+        </div>
+        <button class="btn-primary" onclick="submitHistory()">
+          Publish Post
+        </button>
+      </div>
+
+      <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--cream);margin-bottom:20px">
+        Published Posts
+      </h3>
+      <div class="admin-items-grid" id="historyList">
+        <div class="card-skeleton" style="height:160px"></div>
+        <div class="card-skeleton" style="height:160px"></div>
+      </div>
+    </div>
+
+    <!-- ── GALLERY PANEL ── -->
+    <div class="admin-panel" id="panel-gallery">
+      <div class="upload-form">
+        <h3>Upload to Gallery</h3>
+        <div class="form-group">
+          <label class="form-label">Caption</label>
+          <input type="text" class="form-input" id="g-caption" placeholder="Brief description">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <input type="text" class="form-input" id="g-category" placeholder="e.g. Events, Historical, Nature, Ceremonies">
+        </div>
+        <div class="form-group">
+          <label class="form-label">File * (image or video)</label>
+          <div class="file-drop" id="g-drop">
+            <div class="file-drop-icon">🎞️</div>
+            <p class="file-drop-text">Click or drag image / video here</p>
+            <input type="file" id="g-file" accept="image/*,video/*">
+          </div>
+          <div class="file-preview" id="g-preview"></div>
+        </div>
+        <button class="btn-primary" onclick="submitGallery()">Upload</button>
+      </div>
+
+      <h3 style="font-family:var(--font-display);font-size:1.3rem;color:var(--cream);margin-bottom:20px">
+        Gallery Items
+      </h3>
+      <div class="admin-items-grid" id="galleryList">
+        <div class="card-skeleton" style="height:160px"></div>
+        <div class="card-skeleton" style="height:160px"></div>
+        <div class="card-skeleton" style="height:160px"></div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS PANEL ── -->
+    <div class="admin-panel" id="panel-settings">
+      <div class="upload-form">
+        <h3>Site Settings</h3>
+        <p style="color:var(--cream-dim);margin-bottom:24px">Manage your API endpoint and other configuration.</p>
+        <div class="form-group">
+          <label class="form-label">Railway API URL</label>
+          <input type="text" class="form-input" id="apiUrlInput" placeholder="https://your-app.railway.app">
+        </div>
+        <button class="btn-primary" onclick="saveApiUrl()">Save URL</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="../js/api.js"></script>
+<script>
+// ─── Auth guard ──────────────────────────────────────────────────────────────
+(async () => {
+  if (!await verifyAdmin()) location.href = 'login.html';
+})();
+
+function logout() { clearAdminToken(); location.href = 'login.html'; }
+
+// ─── Panel navigation ────────────────────────────────────────────────────────
+const titles = { history: 'History Posts', gallery: 'Gallery', settings: 'Settings' };
+document.querySelectorAll('.admin-nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = btn.dataset.panel;
+    document.getElementById(`panel-${panel}`).classList.add('active');
+    document.getElementById('panelTitle').textContent = titles[panel];
+    if (panel === 'history') loadHistoryList();
+    if (panel === 'gallery') loadGalleryList();
+  });
+});
+
+// ─── File drop preview ────────────────────────────────────────────────────────
+function setupFileDrop(dropId, inputId, previewId) {
+  const drop = document.getElementById(dropId);
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  if (!drop || !input) return;
+
+  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag-over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('drag-over'));
+  drop.addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('drag-over');
+    if (e.dataTransfer.files[0]) showPreview(e.dataTransfer.files[0], preview);
+  });
+  input.addEventListener('change', () => {
+    if (input.files[0]) showPreview(input.files[0], preview);
+  });
+}
+
+function showPreview(file, preview) {
+  const url = URL.createObjectURL(file);
+  preview.innerHTML = file.type.startsWith('video')
+    ? `<video src="${url}" style="width:120px;border-radius:6px" muted></video>`
+    : `<img src="${url}" class="file-thumb">`;
+}
+
+setupFileDrop('h-drop', 'h-image', 'h-preview');
+setupFileDrop('g-drop', 'g-file',  'g-preview');
+
+// ─── History ─────────────────────────────────────────────────────────────────
+async function submitHistory() {
+  const title   = document.getElementById('h-title').value.trim();
+  const content = document.getElementById('h-content').value.trim();
+  const era     = document.getElementById('h-era').value.trim();
+  const image   = document.getElementById('h-image').files[0];
+
+  if (!title || !content) return showToast('Title and content are required', 'error');
+
+  const form = new FormData();
+  form.append('title', title);
+  form.append('content', content);
+  form.append('era', era);
+  form.append('token', getAdminToken());
+  if (image) form.append('image', image);
+
+  try {
+    await api.post('/api/history', form, true);
+    showToast('History post published!');
+    document.getElementById('h-title').value = '';
+    document.getElementById('h-content').value = '';
+    document.getElementById('h-era').value = '';
+    document.getElementById('h-image').value = '';
+    document.getElementById('h-preview').innerHTML = '';
+    loadHistoryList();
+  } catch (e) { showToast('Upload failed: ' + e.message, 'error'); }
+}
+
+async function loadHistoryList() {
+  const list = document.getElementById('historyList');
+  list.innerHTML = '<div class="card-skeleton" style="height:120px"></div>'.repeat(3);
+  try {
+    const posts = await api.get('/api/history');
+    list.innerHTML = posts.length
+      ? posts.map(p => `
+        <div class="admin-item-card">
+          ${p.image_url ? `<img src="${p.image_url}" alt="">` : ''}
+          <div class="admin-item-body">
+            <div class="admin-item-title">${p.title}</div>
+            ${p.era ? `<div style="font-size:0.7rem;color:var(--gold);margin-bottom:8px">${p.era}</div>` : ''}
+            <div class="admin-item-actions">
+              <button class="btn-danger" onclick="deleteHistory(${p.id})">Delete</button>
+            </div>
+          </div>
+        </div>`).join('')
+      : '<p style="color:var(--cream-dim)">No posts yet.</p>';
+  } catch { list.innerHTML = '<p style="color:var(--red)">Failed to load.</p>'; }
+}
+
+async function deleteHistory(id) {
+  if (!confirm('Delete this history post?')) return;
+  try {
+    await api.del(`/api/history/${id}`);
+    showToast('Post deleted');
+    loadHistoryList();
+  } catch { showToast('Delete failed', 'error'); }
+}
+
+// ─── Gallery ──────────────────────────────────────────────────────────────────
+async function submitGallery() {
+  const file     = document.getElementById('g-file').files[0];
+  const caption  = document.getElementById('g-caption').value.trim();
+  const category = document.getElementById('g-category').value.trim() || 'general';
+
+  if (!file) return showToast('Please select a file', 'error');
+
+  const form = new FormData();
+  form.append('file', file);
+  form.append('caption', caption);
+  form.append('category', category);
+  form.append('token', getAdminToken());
+
+  try {
+    await api.post('/api/gallery', form, true);
+    showToast('Uploaded to gallery!');
+    document.getElementById('g-file').value = '';
+    document.getElementById('g-caption').value = '';
+    document.getElementById('g-preview').innerHTML = '';
+    loadGalleryList();
+  } catch (e) { showToast('Upload failed: ' + e.message, 'error'); }
+}
+
+async function loadGalleryList() {
+  const list = document.getElementById('galleryList');
+  list.innerHTML = '<div class="card-skeleton" style="height:120px"></div>'.repeat(4);
+  try {
+    const items = await api.get('/api/gallery');
+    list.innerHTML = items.length
+      ? items.map(i => `
+        <div class="admin-item-card">
+          ${i.media_type === 'video'
+            ? `<video src="${i.url}" style="width:100%;aspect-ratio:16/9;object-fit:cover" muted></video>`
+            : `<img src="${i.url}" alt="${i.caption}">`}
+          <div class="admin-item-body">
+            <div class="admin-item-title">${i.caption || 'No caption'}</div>
+            <div style="font-size:0.7rem;color:var(--gold);margin-bottom:8px">${i.category || ''} · ${i.media_type}</div>
+            <div class="admin-item-actions">
+              <button class="btn-danger" onclick="deleteGallery(${i.id})">Delete</button>
+            </div>
+          </div>
+        </div>`).join('')
+      : '<p style="color:var(--cream-dim)">No gallery items yet.</p>';
+  } catch { list.innerHTML = '<p style="color:var(--red)">Failed to load.</p>'; }
+}
+
+async function deleteGallery(id) {
+  if (!confirm('Delete this item?')) return;
+  try {
+    await api.del(`/api/gallery/${id}`);
+    showToast('Item deleted');
+    loadGalleryList();
+  } catch { showToast('Delete failed', 'error'); }
+}
+
+// ─── Settings ────────────────────────────────────────────────────────────────
+document.getElementById('apiUrlInput').value = localStorage.getItem('brall_api_url') || '';
+function saveApiUrl() {
+  const url = document.getElementById('apiUrlInput').value.trim();
+  localStorage.setItem('brall_api_url', url);
+  showToast('API URL saved! Reload to apply.');
+}
+
+// Init
+loadHistoryList();
+</script>
+</body>
+</html>

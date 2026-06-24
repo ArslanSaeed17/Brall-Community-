@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Brall Community</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <span class="logo-emblem">ب</span>
+      <span class="logo-text">Brall Community</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="history.html">History</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="admin/login.html" class="nav-admin-btn">Admin</a>
+    <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <p class="section-eyebrow">Get In Touch</p>
+    <h1 class="page-hero-title"><span>Contact</span> Us</h1>
+    <p class="page-hero-sub">Reach out to the Brall Community administrators.</p>
+  </div>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Brall Community</h3>
+        <p class="body-text">For history submissions, corrections, or general inquiries, get in touch with our community admins.</p>
+
+        <div class="contact-item">
+          <span class="contact-icon">📍</span>
+          <div>
+            <strong style="color:var(--cream)">Location</strong>
+            <p style="color:var(--cream-dim);font-size:0.9rem">Iqbal Avenue, Lahore, Pakistan</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📱</span>
+          <div>
+            <strong style="color:var(--cream)">WhatsApp</strong>
+            <p style="color:var(--cream-dim);font-size:0.9rem">
+              <a href="https://wa.me/923008971489" style="color:var(--gold)">+92 300 897 1489</a>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📘</span>
+          <div>
+            <strong style="color:var(--cream)">Facebook</strong>
+            <p style="color:var(--cream-dim);font-size:0.9rem">
+              <a href="https://facebook.com/ArslanSaeedBrall" target="_blank" style="color:var(--gold)">Arslan Saeed Brall</a>
+            </p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-icon">📸</span>
+          <div>
+            <strong style="color:var(--cream)">Instagram</strong>
+            <p style="color:var(--cream-dim);font-size:0.9rem">
+              <a href="https://instagram.com/arslanbrall" target="_blank" style="color:var(--gold)">@arslanbrall</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3 style="font-family:var(--font-display);font-size:1.4rem;color:var(--cream);margin-bottom:24px">Send a Message</h3>
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" id="c-name" placeholder="Muhammad Ahmed">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email / WhatsApp</label>
+          <input type="text" class="form-input" id="c-contact" placeholder="email or +92…">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <input type="text" class="form-input" id="c-subject" placeholder="History submission, correction, etc.">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-textarea" id="c-message" placeholder="Write your message here…"></textarea>
+        </div>
+        <button class="btn-primary" onclick="sendContact()">Send via WhatsApp</button>
+        <p style="font-size:0.75rem;color:var(--cream-dim);margin-top:12px">
+          This will open WhatsApp with your message pre-filled.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <span class="logo-emblem large">ب</span>
+        <span class="logo-text">Brall Community</span>
+      </div>
+      <nav class="footer-nav">
+        <a href="history.html">History</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> Brall Community. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+function sendContact() {
+  const name    = document.getElementById('c-name').value.trim();
+  const contact = document.getElementById('c-contact').value.trim();
+  const subject = document.getElementById('c-subject').value.trim();
+  const message = document.getElementById('c-message').value.trim();
+
+  if (!name || !message) return showToast('Name and message required', 'error');
+
+  const text = `*Brall Community Website*\n\nFrom: ${name}\nContact: ${contact}\nSubject: ${subject}\n\n${message}`;
+  const url  = `https://wa.me/923008971489?text=${encodeURIComponent(text)}`;
+  window.open(url, '_blank');
+}
+</script>
+</body>
+</html>
