@@ -1,7 +1,8 @@
 // ─── API CONFIG ────────────────────────────────────────────────────────────
-const API_BASE = window.location.hostname === 'localhost'
-  ? 'http://localhost:8000'
-  : 'https://YOUR_RAILWAY_URL'; // <-- replace after deploy
+const API_BASE =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8000"
+    : "https://brall-community-production.up.railway.app";
 
 const api = {
   get: async (path) => {
